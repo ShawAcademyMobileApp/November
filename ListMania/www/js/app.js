@@ -48,6 +48,8 @@ document.addEventListener("app.Ready", onAppReady, false) ;
 
 // NOTE: change "dev.LOG" in "init-dev.js" to "true" to enable some console.log
 // messages that can help you debug Cordova app initialization issues.
+var count = 0;
+
 function getArray()
 {
     var taskList = [];
@@ -106,7 +108,7 @@ function removeTask()
     //Remove Tasks from the Array
     var rID = this.getAttribute("id");
     var taskList = getArray();
-    navigator.notification.alert("You're Awesome!", beep,taskList[rID],'Complete');
+    navigator.notification.confirm("You're Awesome!", beep,taskList[rID],'Complete');
     taskList.splice(rID, 1);
     localStorage.setItem('itemList', JSON.stringify(taskList));
     
@@ -115,14 +117,11 @@ function removeTask()
 }
 function beep()
 {
+    count++;
     var array = getArray();
-    if(array.length >= 1)
+    if(array.length < 1)
         {
-            navigator.notification.beep(1);
-        }
-    else
-        {
-            navigator.notification.beep(2);
+            navigator.notification.alert("All Tasks Completed",null, count+" Tasks Completed", "Do More!");
         }
 }
 
